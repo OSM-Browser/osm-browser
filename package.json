@@ -1,0 +1,35 @@
+{
+  "name": "osm-browser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "buefy": "^0.5.4",
+    "font-awesome": "^4.7.0",
+    "leaflet": "^1.2.0",
+    "leaflet.locatecontrol": "^0.62.0",
+    "vue": "^2.5.1",
+    "vue-moment": "^2.1.0",
+    "vue-router": "^3.0.1",
+    "vue2-leaflet": "0.0.55"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.5",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "vue-loader": "^13.3.0",
+    "vue-template-compiler": "^2.5.1",
+    "webpack": "^3.7.1",
+    "webpack-dev-server": "^2.9.1"
+  }
+}

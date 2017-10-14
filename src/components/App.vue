@@ -16,24 +16,34 @@
 
     <div id="app-container" class="columns is-gapless">
       <div id="app-sidebar" class="column is-one-quarter">
-        <sidebar @category-selected="updateFilter" />
+        <sidebar @category-selected="categoryChanged" />
       </div>
 
-      <div class="column">
-        <v-map ref="map" :zoom=13 :center="[47.413220, -1.219482]" @l-moveend="loadPoints">
+      <div class="column" style="display: flex; flex-direction: column">
+        <v-map ref="map" :zoom=13 :center="[47.413220, -1.219482]" @l-moveend="mapMoved">
           <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
-          <v-marker v-for="point in points" :key="point.id" :lat-lng="[point.lat, point.lon]"></v-marker>
+          <v-marker v-for="point in points" :key="point.id" :lat-lng="[point.lat, point.lon]" :icon="icon" @l-click="selectedPoint = point"></v-marker>
         </v-map>
+
+        <div v-if="selectedPoint" id="app-point-info">
+          <a class="delete is-large is-pulled-right" @click="selectedPoint = null"></a>
+
+          <h1 class="title is-4">{{ selectedPoint.tags.name || '' }}</h1>
+          <h2 class="subtitle">{{ selectedPoint.tags['addr:street'] || '' }} {{ selectedPoint.tags['addr:housenumber'] || '' }}</h2>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Axios from 'axios'
+
 import L from 'leaflet'
+import AwesomeMarker from 'drmonty-leaflet-awesome-markers'
+import LeafletProviders from 'leaflet-providers'
 import LocateControl from 'leaflet.locatecontrol'
 
+import OSM from '../services/OSM'
 import Sidebar from './Sidebar'
 
 export default {
@@ -42,17 +52,22 @@ export default {
   },
   data: function () {
     return {
-      filter: 'amenity=drinking_water',
-      points: []
+      osm: new OSM(),
+      icon: L.AwesomeMarkers.icon({ icon: 'map-marker', 'prefix': 'fa' }),
+      filter: null,
+      points: [],
+      selectedPoint: null
     }
   },
   mounted: function () {
-    (new LocateControl({
-      drawCircle: false
-    })).addTo(this.$refs.map.mapObject)
+    (new LocateControl({ drawCircle: false })).addTo(this.$refs.map.mapObject)
   },
   methods: {
     loadPoints: function () {
+      if (!this.filter) {
+        return
+      }
+
       let bbox = this.$refs.map.mapObject.getBounds()
 
       bbox = [
@@ -64,17 +79,15 @@ export default {
 
       let query = `[out:json];node[${ this.filter }](${ bbox });out;`
 
-      let formData = new URLSearchParams()
-      formData.append('data', query)
-
-      Axios.post(
-        'http://overpass-api.de/api/interpreter',
-        formData
-      ).then((response) => {
+      this.osm.runQuery(query).then((response) => {
         this.points = response.data.elements
       })
     },
-    updateFilter: function (category) {
+    mapMoved: function() {
+      this.loadPoints()
+    },
+    categoryChanged: function (category) {
+      this.points = []
       this.filter = category.filter
       this.loadPoints()
     }
@@ -90,6 +103,7 @@ export default {
     @import "~bulma";
     @import "~buefy/src/scss/buefy";
     @import "~leaflet/dist/leaflet.css";
+    @import "~drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css";
     @import "~leaflet.locatecontrol/dist/L.Control.Locate.css";
     @import "~font-awesome/css/font-awesome.css";
 
@@ -108,6 +122,11 @@ export default {
     #app-container {
       height: 100vh;
       padding-top: 3.25rem;
+    }
+
+    #app-point-info {
+      height: 200px;
+      padding: 20px;
     }
 
     #app-sidebar {

@@ -12,8 +12,10 @@
   "dependencies": {
     "axios": "^0.16.2",
     "buefy": "^0.5.4",
+    "drmonty-leaflet-awesome-markers": "^2.0.2",
     "font-awesome": "^4.7.0",
     "leaflet": "^1.2.0",
+    "leaflet-providers": "^1.1.17",
     "leaflet.locatecontrol": "^0.62.0",
     "vue": "^2.5.1",
     "vue-moment": "^2.1.0",

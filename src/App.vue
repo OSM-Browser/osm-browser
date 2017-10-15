@@ -69,7 +69,7 @@ export default {
         bbox.getNorthEast().lng
       ].join(',')
 
-      let query = `[bbox:${ bbox }][out:json];(node[${ this.filter }];way[${ this.filter }]);out center;`
+      let query = `[bbox:${ bbox }][out:json];(node[${ this.filter }];way[${ this.filter }]);out tags center;`
 
       this.osm.runQuery(query).then((response) => {
         this.points = response.data.elements.map(element => new Point(element))

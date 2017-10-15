@@ -3,7 +3,7 @@ import Vue2Leaflet from 'vue2-leaflet'
 import VueRouter from 'vue-router'
 import Buefy from 'buefy'
 
-import App from './components/App'
+import App from './App'
 
 Vue.use(VueRouter)
 Vue.use(Buefy)

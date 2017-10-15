@@ -1,4 +1,4 @@
-let categories = [
+const amenities = [
   { name: 'Parkingi', icon: 'parking', filter: 'amenity=parking' },
   { name: 'Świątynie', icon: 'cathedral', filter: 'amenity=place_of_worship' },
   { name: 'Szkoły', icon: 'school', filter: 'amenity=school' },
@@ -24,9 +24,9 @@ let categories = [
   { name: 'Bankomaty', icon: 'atm', filter: 'amenity=atm' },
   { name: 'Bary', icon: 'bar', filter: 'amenity=bar' },
   { name: 'Policja', icon: 'police', filter: 'amenity=police' },
-  { name: 'Automaty do sprzedaży', icon: 'vending-machine', filter: 'amenity=vending_machine' },
+  { name: 'Automaty', icon: 'vending-machine', filter: 'amenity=vending_machine' },
   { name: 'Ratusze', icon: 'city-hall', filter: 'amenity=townhall' },
   { name: 'Straż pożarna', icon: 'fire-station', filter: 'amenity=fire_station' }
 ]
 
-export default categories
+export default amenities

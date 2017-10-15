@@ -1,23 +1,17 @@
 <template>
   <aside class="menu" style="padding: 20px">
-    <ul class="menu-list">
-      <li v-for="category in categories" :key="category.name">
-        <a :class="{ 'is-active': selectedCategory && selectedCategory.name == category.name }" @click="selectCategory(category)">
-          <img v-if="category.icon" :src="`https://png.icons8.com/${ category.icon }/office/20`" class="category-icon" width="20" height="20">
-          {{ category.name }}
-        </a>
-      </li>
-      <!--
-      <li>
-        <a class="is-active">Manage Your Team</a>
-        <ul>
-          <li><a>Members</a></li>
-          <li><a>Plugins</a></li>
-          <li><a>Add a member</a></li>
+    <b-tabs v-model="activeTab">
+      <b-tab-item v-for="tab in tabs" :label="tab.name" :key="tab.name">
+        <ul class="menu-list">
+          <li v-for="category in tab.items" :key="category.name">
+            <a :class="{ 'is-active': isSelected(category) }" @click="selectCategory(category)">
+              <img v-if="category.icon" :src="getIcon(category)" class="category-icon" width="20" height="20">
+              {{ category.name }}
+            </a>
+          </li>
         </ul>
-      </li>
-      -->
-    </ul>
+      </b-tab-item>
+    </b-tabs>
   </aside>
 </template>
 
@@ -25,20 +19,31 @@
 export default {
   data: function () {
     return {
-      categories: require('../../config/categories').default,
-      selectedCategory: null
+      activeTab: 0,
+      selectedCategory: null,
+      tabs: require('../../config/tabs').default
     }
   },
   methods: {
+    getIcon: function (category) {
+      return `https://png.icons8.com/${ category.icon }/office/20`
+    },
     selectCategory: function (category) {
       this.selectedCategory = category
       this.$emit('category-selected', category)
+    },
+    isSelected: function (category) {
+      return this.selectedCategory && this.selectedCategory.name == category.name
     }
   }
 }
 </script>
 
 <style>
+.b-tabs .tab-content {
+  padding-top: 10px;
+}
+
 .category-icon {
   vertical-align: middle;
   margin-right: 10px;

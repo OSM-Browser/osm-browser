@@ -11,7 +11,7 @@
         <v-map ref="map" :zoom=13 :center="[47.413220, -1.219482]" @l-moveend="mapMoved">
           <v-marker v-for="point in points"
             :key="point.id"
-            :lat-lng="[point.lat, point.lon]"
+            :lat-lng="point.coordinates"
             :icon="getIcon(point)"
             :options="{ title: (point.tags.name || '') }"
             @l-click="selectedPoint = point"
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-
 import L from 'leaflet'
 import AwesomeMarker from 'drmonty-leaflet-awesome-markers'
 import LeafletProviders from 'leaflet-providers'
 import LocateControl from 'leaflet.locatecontrol'
 
 import OSM from './services/OSM'
+import Point from './models/Point'
 import PointInfo from './components/PointInfo'
 import Sidebar from './components/Sidebar'
 import Navbar from './components/Navbar'
@@ -69,10 +69,10 @@ export default {
         bbox.getNorthEast().lng
       ].join(',')
 
-      let query = `[out:json];node[${ this.filter }](${ bbox });out;`
+      let query = `[bbox:${ bbox }][out:json];(node[${ this.filter }];way[${ this.filter }]);out center;`
 
       this.osm.runQuery(query).then((response) => {
-        this.points = response.data.elements
+        this.points = response.data.elements.map(element => new Point(element))
       })
     },
     mapMoved: function () {

@@ -13,7 +13,7 @@
             :key="point.id"
             :lat-lng="point.coordinates"
             :icon="getIcon(point)"
-            :options="{ title: (point.tags.name || '') }"
+            :options="{ title: point.name }"
             @l-click="selectedPoint = point"
           />
         </v-map>

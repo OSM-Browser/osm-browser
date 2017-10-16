@@ -3,7 +3,7 @@ import Axios from 'axios'
 export default class OSM {
   constructor() {
     this.client = Axios.create({
-      baseURL: 'https://overpass-api.de/api/'
+      baseURL: 'https://overpass.kumi.systems/api/'
     })
   }
 

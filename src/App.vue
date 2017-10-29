@@ -11,7 +11,7 @@
         <v-map ref="map" :zoom=13 :center="[47.413220, -1.219482]" @l-moveend="mapMoved">
           <v-marker v-for="point in points"
             :key="point.id"
-            :lat-lng="point.coordinates"
+            :lat-lng="point.location"
             :icon="getIcon(point)"
             :options="{ title: point.name }"
             @l-click="selectedPoint = point"
@@ -30,7 +30,7 @@ import AwesomeMarker from 'drmonty-leaflet-awesome-markers'
 import LeafletProviders from 'leaflet-providers'
 import LocateControl from 'leaflet.locatecontrol'
 
-import OSM from './services/OSM'
+import PointRepository from './services/PointRepository'
 import Point from './models/Point'
 import PointInfo from './components/PointInfo'
 import Sidebar from './components/Sidebar'
@@ -44,7 +44,7 @@ export default {
   },
   data: function () {
     return {
-      osm: new OSM(),
+      repository: new PointRepository(),
       filter: null,
       points: [],
       selectedPoint: null
@@ -62,17 +62,8 @@ export default {
 
       let bbox = this.$refs.map.mapObject.getBounds()
 
-      bbox = [
-        bbox.getSouthWest().lat,
-        bbox.getSouthWest().lng,
-        bbox.getNorthEast().lat,
-        bbox.getNorthEast().lng
-      ].join(',')
-
-      let query = `[bbox:${ bbox }][out:json];(node[${ this.filter }];way[${ this.filter }]);out tags center;`
-
-      this.osm.runQuery(query).then((response) => {
-        this.points = response.data.elements.map(element => new Point(element))
+      this.repository.getPoints(bbox).then((points) => {
+        this.points = points
       })
     },
     mapMoved: function () {

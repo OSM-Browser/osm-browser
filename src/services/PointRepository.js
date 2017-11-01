@@ -14,7 +14,9 @@ export default class {
       bbox.getNorthEast().lng
     ].join(',')
 
-    return this.client.get('points', { params: { bbox }}).then((response) => {
+    return this.client.get('points', {
+      params: { bbox, type, subtype }
+    }).then((response) => {
       return response.data.map(element => new Point(element))
     })
   }

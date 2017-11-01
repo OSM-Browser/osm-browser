@@ -9,15 +9,15 @@
       {{ point.address[0] }}
     </p>
 
-    <p v-if="point.tags.phone">
+    <p v-if="point.phone">
       <i class="fa fa-phone"></i>
-      <a :href="'tel:' + point.tags.phone">{{ point.tags.phone }}</a>
+      <a :href="'tel:' + point.phone">{{ point.phone }}</a>
     </p>
 
-    <p v-if="point.tags.website">
+    <p v-if="point.website">
       <i class="fa fa-external-link"></i>
-      <a :href="point.tags.website">{{ point.tags.website }}</a>
-      </p>
+      <a :href="point.website">{{ point.website }}</a>
+    </p>
   </div>
 </template>
 

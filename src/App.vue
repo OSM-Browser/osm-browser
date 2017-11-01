@@ -61,8 +61,9 @@ export default {
       }
 
       let bbox = this.$refs.map.mapObject.getBounds()
+      let [type, subtype] = this.filter.split('=')
 
-      this.repository.getPoints(bbox).then((points) => {
+      this.repository.getPoints(bbox, type, subtype).then((points) => {
         this.points = points
       })
     },

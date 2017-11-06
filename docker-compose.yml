@@ -1,0 +1,5 @@
+version: "3"
+services:
+  osm-browser:
+    build: .
+    image: osmbrowser/osm-browser

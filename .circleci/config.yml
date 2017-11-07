@@ -1,0 +1,38 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/osm-browser
+    docker:
+      - image: osmbrowser/ci
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.10.0-ce
+      - run: docker-compose up -d
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: docker-compose push $CIRCLE_PROJECT_REPONAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - docker-compose.yml
+  deploy:
+    working_directory: ~/osm-browser
+    docker:
+      - image: osmbrowser/ci
+    environment:
+      DOCKER_HOST: tcp://127.0.0.1:2375
+    steps:
+      - attach_workspace:
+          at: .
+      - run: mkdir -p ~/.ssh && echo "$SSH_HOST ecdsa-sha2-nistp256 $SSH_PUBKEY" >> ~/.ssh/known_hosts
+      - run: ssh -nNT4 -L 2375:127.0.0.1:2375 $SSH_USER@$SSH_HOST & sleep 5; docker-compose pull; docker-compose up -d --no-build
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          context: org-global
+      - deploy:
+          context: org-global
+          requires:
+            - build

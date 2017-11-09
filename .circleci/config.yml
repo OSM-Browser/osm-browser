@@ -14,13 +14,15 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - docker-compose.yml
+            - docker-compose*.yml
   deploy:
     working_directory: ~/osm-browser
     docker:
       - image: osmbrowser/ci
     environment:
+      COMPOSE_FILE: docker-compose.yml:docker-compose.prod.yml
       DOCKER_HOST: tcp://127.0.0.1:2375
+      VIRTUAL_HOST: www.osm.ovh
     steps:
       - attach_workspace:
           at: .

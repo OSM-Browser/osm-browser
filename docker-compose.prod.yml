@@ -1,0 +1,7 @@
+version: "3"
+services:
+  osm-browser:
+    environment:
+      VIRTUAL_HOST: $VIRTUAL_HOST
+      LETSENCRYPT_HOST: $VIRTUAL_HOST
+      LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL

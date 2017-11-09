@@ -2,7 +2,7 @@ import Axios from 'axios'
 import Point from '../models/Point'
 
 export default class {
-  constructor(baseURL = 'http://localhost:4000') {
+  constructor(baseURL = 'https://points.osm.ovh/') {
     this.client = Axios.create({ baseURL })
   }
 

@@ -21,7 +21,8 @@
     "vue": "^2.5.3",
     "vue-moment": "^2.2.0",
     "vue-router": "^3.0.1",
-    "vue2-leaflet": "0.0.56"
+    "vue2-leaflet": "0.0.56",
+    "vue2-leaflet-markercluster": "^1.2.0"
   },
   "devDependencies": {
     "css-loader": "^0.28.7",

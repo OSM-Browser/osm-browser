@@ -9,13 +9,15 @@
 
       <div class="column" style="display: flex; flex-direction: column">
         <v-map ref="map" :zoom=13 :center="[47.413220, -1.219482]" @l-moveend="mapMoved">
-          <v-marker v-for="point in points"
-            :key="point.id"
-            :lat-lng="point.location"
-            :icon="getIcon(point)"
-            :options="{ title: point.name }"
-            @l-click="selectedPoint = point"
-          />
+          <v-marker-cluster :options="{ disableClusteringAtZoom: 14 }">
+            <v-marker v-for="point in points"
+              :key="point.id"
+              :lat-lng="point.location"
+              :icon="getIcon(point)"
+              :options="{ title: point.name }"
+              @l-click="selectedPoint = point"
+            />
+          </v-marker-cluster>
         </v-map>
 
         <point-info v-if="selectedPoint" :point="selectedPoint" @closed="selectedPoint = null" />
@@ -92,6 +94,8 @@ export default {
   @import "~leaflet/dist/leaflet.css";
   @import "~drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css";
   @import "~leaflet.locatecontrol/dist/L.Control.Locate.css";
+  @import "~leaflet.markercluster/dist/MarkerCluster.css";
+  @import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
   @import "~font-awesome/css/font-awesome.css";
 
   html {

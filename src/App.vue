@@ -8,7 +8,7 @@
       </div>
 
       <div class="column" style="display: flex; flex-direction: column">
-        <v-map ref="map" :zoom=13 :center="[47.413220, -1.219482]" @l-moveend="mapMoved">
+        <v-map ref="map" :zoom=13 :maxZoom=19 :center="[47.413220, -1.219482]" @l-moveend="mapMoved">
           <v-marker-cluster :options="{ disableClusteringAtZoom: 14 }">
             <v-marker v-for="point in points"
               :key="point.id"

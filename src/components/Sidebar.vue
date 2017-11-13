@@ -1,12 +1,12 @@
 <template>
   <aside class="menu" style="padding: 20px">
     <b-tabs v-model="activeTab">
-      <b-tab-item v-for="tab in tabs" :label="tab.name" :key="tab.name">
+      <b-tab-item v-for="tab in tabs" :label="$t(tab.id)" :key="tab.name">
         <ul class="menu-list">
-          <li v-for="category in tab.items" :key="category.name">
+          <li v-for="category in tab.items" :key="category.filter">
             <a :class="{ 'is-active': isSelected(category) }" @click="selectCategory(category)">
               <img v-if="category.icon" :src="getIcon(category)" class="category-icon" width="20" height="20">
-              {{ category.name }}
+              {{ $t(category.filter) }}
             </a>
           </li>
         </ul>
@@ -33,7 +33,7 @@ export default {
       this.$emit('category-selected', category)
     },
     isSelected: function (category) {
-      return this.selectedCategory && this.selectedCategory.name == category.name
+      return this.selectedCategory && this.selectedCategory.filter == category.filter
     }
   }
 }

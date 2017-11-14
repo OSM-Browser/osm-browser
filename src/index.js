@@ -16,8 +16,11 @@ Vue.component('v-tilelayer', Vue2Leaflet.TileLayer)
 Vue.component('v-marker', Vue2Leaflet.Marker)
 Vue.component('v-marker-cluster', Vue2LeafletMarkerCluster)
 
+let localeCodes = require('../config/i18n').default.map(l => l.code)
+let localeCode = navigator.languages.find(c => localeCodes.includes(c)) || 'en'
+
 const i18n = new VueI18n({
-  locale: 'en',
+  locale: localeCode || 'en',
   messages: {
     'en': require('../config/i18n/en.json'),
     'pl': require('../config/i18n/pl.json')

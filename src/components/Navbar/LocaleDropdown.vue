@@ -25,7 +25,7 @@ export default {
   methods: {
     changeLocale: function(locale) {
       this.$i18n.locale = locale
-      this.getCurrentLocaleIcon()
+      localStorage.setItem('locale', locale)
     },
     getCurrentLocaleIcon: function() {
       let locale = this.locales.find(l => l.code == this.$i18n.locale)

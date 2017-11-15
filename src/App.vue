@@ -8,7 +8,7 @@
       </div>
 
       <div class="column" style="display: flex; flex-direction: column">
-        <v-map ref="map" :zoom=13 :maxZoom=19 :center="[47.413220, -1.219482]" @l-moveend="mapMoved">
+        <v-map ref="map" :maxZoom=19 :center="location.coordinates" :zoom="location.zoom" @l-moveend="mapMoved">
           <v-marker-cluster :options="{ disableClusteringAtZoom: 14 }">
             <v-marker v-for="point in points"
               :key="point.id"
@@ -33,6 +33,7 @@ import LeafletProviders from 'leaflet-providers'
 import LocateControl from 'leaflet.locatecontrol'
 
 import PointRepository from './services/PointRepository'
+import Storage from './services/Storage'
 import Point from './models/Point'
 import PointInfo from './components/PointInfo'
 import Sidebar from './components/Sidebar'
@@ -49,7 +50,11 @@ export default {
       repository: new PointRepository(),
       filter: null,
       points: [],
-      selectedPoint: null
+      selectedPoint: null,
+      location: {
+        coordinates: Storage.getObject('location.coordinates', [47.413220, -1.219482]),
+        zoom: Storage.getNumber('location.zoom', 13)
+      }
     }
   },
   mounted: function () {
@@ -71,6 +76,10 @@ export default {
     },
     mapMoved: function () {
       this.loadPoints()
+
+      let map = this.$refs.map.mapObject
+      Storage.set('location.coordinates', [map.getCenter().lat, map.getCenter().lng])
+      Storage.set('location.zoom', map.getZoom())
     },
     categoryChanged: function (category) {
       this.points = []

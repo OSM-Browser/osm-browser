@@ -34,5 +34,11 @@ const i18n = new VueI18n({
 new Vue({
   el: '#app',
   i18n,
-  render: h => h(App),
+  render: (h, c) => h(App, {
+    props: {
+      center: c.props.center,
+      zoom: c.props.zoom
+    }
+  }),
+  props: ['center', 'zoom']
 })

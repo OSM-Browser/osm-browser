@@ -51,13 +51,14 @@ export default {
       filter: null,
       points: [],
       selectedPoint: null,
-      location: {
-        coordinates: Storage.getObject('location.coordinates', [47.413220, -1.219482]),
-        zoom: Storage.getNumber('location.zoom', 13)
+      center: function () {
+        return Storage.getObject('location.coordinates', this.center)
+      },
+      zoom: function() {
+        return Storage.getNumber('location.zoom', this.zoom)
       }
     }
   },
-  props: ['center', 'zoom'],
   mounted: function () {
     (new LocateControl({ drawCircle: false })).addTo(this.$refs.map.mapObject)
     L.tileLayer.provider('OpenStreetMap').addTo(this.$refs.map.mapObject)

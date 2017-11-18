@@ -8,7 +8,7 @@
       </div>
 
       <div class="column" style="display: flex; flex-direction: column">
-        <v-map ref="map" :maxZoom=19 :center="location.coordinates" :zoom="location.zoom" @l-moveend="mapMoved">
+        <v-map ref="map" :maxZoom=19 :center="center" :zoom="zoom" @l-moveend="mapMoved">
           <v-marker-cluster :options="{ disableClusteringAtZoom: 14 }">
             <v-marker v-for="point in points"
               :key="point.id"
@@ -57,6 +57,7 @@ export default {
       }
     }
   },
+  props: ['center', 'zoom'],
   mounted: function () {
     (new LocateControl({ drawCircle: false })).addTo(this.$refs.map.mapObject)
     L.tileLayer.provider('OpenStreetMap').addTo(this.$refs.map.mapObject)

@@ -109,11 +109,11 @@ export default {
 
   html {
     overflow: hidden;
+    padding-top: 3.25rem;
   }
 
   #app-container {
     height: 100vh;
-    padding-top: 3.25rem;
   }
 
   #app-sidebar {

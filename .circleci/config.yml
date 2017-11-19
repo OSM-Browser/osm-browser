@@ -38,3 +38,8 @@ workflows:
           context: org-global
           requires:
             - build
+          filters:
+            branches:
+              only:
+                - develop
+                - master

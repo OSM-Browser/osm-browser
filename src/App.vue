@@ -59,6 +59,7 @@ export default {
       }
     }
   },
+  props: ['center', 'zoom'],
   mounted: function () {
     (new LocateControl({ drawCircle: false })).addTo(this.$refs.map.mapObject)
     L.tileLayer.provider('OpenStreetMap').addTo(this.$refs.map.mapObject)

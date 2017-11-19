@@ -1,1 +1,3 @@
-<div id="app" :center="[<%= @location.lat %>, <%= @location.lng %>]" :zoom="<%= @location.zoom %>"></div>
+<div id="app">
+  <app :center="[<%= @location.lat %>, <%= @location.lng %>]" zoom="<%= @location.zoom %>"></app>
+</div>

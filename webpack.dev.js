@@ -6,9 +6,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = merge(common, {
    devtool: '#eval-source-map',
    devServer: {
-    contentBase: path.join(__dirname, 'backend/priv/static/assets'),
     compress: true,
-    port: 9000
+    port: 9000,
+    proxy: {
+      '/_geoip': {
+        target: 'http://localhost:4000',
+        pathRewrite: {'^/_geoip' : ''}
+      }
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({

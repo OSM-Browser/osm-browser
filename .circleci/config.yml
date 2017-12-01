@@ -11,10 +11,6 @@ jobs:
       - run: docker-compose up -d
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker-compose push $CIRCLE_PROJECT_REPONAME
-      - persist_to_workspace:
-          root: .
-          paths:
-            - docker-compose*.yml
   deploy:
     working_directory: ~/osm-browser
     docker:
@@ -24,10 +20,12 @@ jobs:
       DOCKER_HOST: tcp://127.0.0.1:2375
       VIRTUAL_HOST: www.osm.ovh
     steps:
-      - attach_workspace:
-          at: .
-      - run: mkdir -p ~/.ssh && echo "$SSH_HOST ecdsa-sha2-nistp256 $SSH_PUBKEY" >> ~/.ssh/known_hosts
-      - run: ssh -nNT4 -L 2375:127.0.0.1:2375 $SSH_USER@$SSH_HOST & sleep 5; docker-compose pull; docker-compose up -d --no-build
+      - run: echo $K8S_CA | base64 -d > ca.crt
+      - run: kubectl config set-cluster default --server=$K8S_URL --certificate-authority=ca.crt
+      - run: kubectl config set-credentials default --token=$(echo $K8S_TOKEN | base64 -d)
+      - run: kubectl config set-context default --cluster=default --user=default
+      - run: kubectl config use-context default
+      - run: helm upgrade ${CIRCLE_PROJECT_REPONAME} ./chart  -i --reuse-values --timeout 600 --wait
 workflows:
   version: 2
   build:

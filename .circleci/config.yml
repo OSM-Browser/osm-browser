@@ -11,21 +11,28 @@ jobs:
       - run: docker-compose up -d
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker-compose push $CIRCLE_PROJECT_REPONAME
+      - persist_to_workspace:
+          root: chart
+          paths:
+            - '*'
   deploy:
     working_directory: ~/osm-browser
     docker:
       - image: osmbrowser/ci
-    environment:
-      COMPOSE_FILE: docker-compose.yml:docker-compose.prod.yml
-      DOCKER_HOST: tcp://127.0.0.1:2375
-      VIRTUAL_HOST: www.osm.ovh
     steps:
-      - run: echo $K8S_CA | base64 -d > ca.crt
-      - run: kubectl config set-cluster default --server=$K8S_URL --certificate-authority=ca.crt
-      - run: kubectl config set-credentials default --token=$(echo $K8S_TOKEN | base64 -d)
-      - run: kubectl config set-context default --cluster=default --user=default
-      - run: kubectl config use-context default
-      - run: helm upgrade ${CIRCLE_PROJECT_REPONAME} ./chart  -i --reuse-values --timeout 600 --wait
+      - attach_workspace:
+          at: chart
+      - run:
+          command: |
+            echo $K8S_CA | base64 -d > ca.crt
+            kubectl config set-cluster default --server=$K8S_URL --certificate-authority=ca.crt
+            kubectl config set-credentials default --token=$(echo $K8S_TOKEN | base64 -d)
+            kubectl config set-context default --cluster=default --user=default
+            kubectl config use-context default
+      - run:
+          command: |
+            helm init -c
+            helm upgrade ${CIRCLE_PROJECT_REPONAME} ./chart  -i --reuse-values --timeout 600 --wait
 workflows:
   version: 2
   build:

@@ -1,5 +1,11 @@
 {
     "amenity": "Amenity",
+    "amenity.transport": "Transport",
+    "amenity.food": "Food",
+    "amenity.health": "Health",
+    "amenity.education": "Education",
+    "amenity.public-services": "Public services",
+    "amenity.money": "Money",
     "amenity=parking": "Parking",
     "amenity=place_of_worship": "Place of worship",
     "amenity=school": "School",

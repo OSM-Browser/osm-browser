@@ -4,7 +4,21 @@
       <b-tab-item v-for="tab in tabs" :label="$t(tab.id)" :key="tab.name">
         <ul class="menu-list">
           <li v-for="category in tab.items" :key="category.filter">
-            <a :class="{ 'is-active': isSelected(category) }" @click="selectCategory(category)">
+            <a v-if="category.children" :class="{ 'is-active': isSelected(category) }" @click="selectGroup(category)">
+              <img v-if="category.icon" :src="getIcon(category)" class="category-icon" width="20" height="20">
+              {{ $t(`${tab.id}.${category.id}`) }}
+            </a>
+
+            <ul v-if="selectedGroup && selectedGroup.id == category.id">
+              <li v-for="child in category.children" :key="child.filter">
+                <a :class="{ 'is-active': isSelected(child) }" @click="selectCategory(child)">
+                  <img v-if="child.icon" :src="getIcon(child)" class="category-icon" width="20" height="20">
+                  {{ $t(child.filter) }}
+                </a>
+              </li>
+            </ul>
+
+            <a v-if="!category.children" :class="{ 'is-active': isSelected(category) }" @click="selectCategory(category)">
               <img v-if="category.icon" :src="getIcon(category)" class="category-icon" width="20" height="20">
               {{ $t(category.filter) }}
             </a>
@@ -16,12 +30,15 @@
 </template>
 
 <script>
+import CategoryRepository from '../services/CategoryRepository'
+
 export default {
   data: function () {
     return {
       activeTab: 0,
       selectedCategory: null,
-      tabs: require('../../config/tabs').default
+      selectedGroup: null,
+      tabs: (new CategoryRepository()).getCategoryTabs()
     }
   },
   methods: {
@@ -32,8 +49,16 @@ export default {
       this.selectedCategory = category
       this.$emit('category-selected', category)
     },
+    selectGroup: function (group) {
+      if (this.selectedGroup?.equals(group)) {
+        this.selectedGroup = null
+        return
+      }
+
+      this.selectedGroup = group
+    },
     isSelected: function (category) {
-      return this.selectedCategory && this.selectedCategory.filter == category.filter
+      return this.selectedCategory?.equals(category)
     }
   }
 }

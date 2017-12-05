@@ -1,5 +1,11 @@
 {
   "amenity": "Udogodnienie",
+  "amenity.transport": "Transport",
+  "amenity.food": "Jedzenie",
+  "amenity.health": "Zdrowie",
+  "amenity.education": "Edukacja",
+  "amenity.public-services": "Usługi publiczne",
+  "amenity.money": "Pieniądze",
   "amenity=parking": "Parking",
   "amenity=place_of_worship": "Świątynia",
   "amenity=school": "Szkoła",

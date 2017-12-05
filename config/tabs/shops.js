@@ -1,27 +1,33 @@
+import Category from '../../src/models/Category'
+import Group from '../../src/models/Group'
+
+const category = (c) => new Category(c)
+const group = (g) => new Group(g)
+
 const shops = [
-  { icon: 'food', filter: 'shop=convenience' },
-  { icon: 'buying', filter: 'shop=supermarket' },
-  { icon: 'clothes', filter: 'shop=clothes' },
-  { icon: 'barber-scissors', filter: 'shop=hairdresser' },
-  { icon: 'bread', filter: 'shop=bakery' },
-  { icon: 'car-service', filter: 'shop=car_repair' },
-  { icon: 'car', filter: 'shop=car' },
-  { icon: 'news', filter: 'shop=kiosk' },
-  { icon: 'meat', filter: 'shop=butcher' },
-  { icon: 'maintenance', filter: 'shop=hardware' },
-  { icon: 'flowers', filter: 'shop=florist' },
-  { icon: 'mascara', filter: 'shop=beauty' },
-  { icon: 'chair', filter: 'shop=furniture' },
-  { icon: 'shop', filter: 'shop=mall' },
-  { icon: 'tv', filter: 'shop=electronics' },
-  { icon: 'boots', filter: 'shop=shoes' },
-  { icon: 'wine-bottle', filter: 'shop=alcohol' },
-  { icon: 'smartphone-tablet', filter: 'shop=mobile_phone' },
-  { icon: 'car-battery', filter: 'shop=car_parts' },
-  { icon: 'bicycle', filter: 'shop=bicycle' },
-  { icon: 'books', filter: 'shop=books' },
-  { icon: 'glasses', filter: 'shop=optician' },
-  { icon: 'jewelry', filter: 'shop=jewelry' }
+  category({ icon: 'food', filter: 'shop=convenience' }),
+  category({ icon: 'buying', filter: 'shop=supermarket' }),
+  category({ icon: 'clothes', filter: 'shop=clothes' }),
+  category({ icon: 'barber-scissors', filter: 'shop=hairdresser' }),
+  category({ icon: 'bread', filter: 'shop=bakery' }),
+  category({ icon: 'car-service', filter: 'shop=car_repair' }),
+  category({ icon: 'car', filter: 'shop=car' }),
+  category({ icon: 'news', filter: 'shop=kiosk' }),
+  category({ icon: 'meat', filter: 'shop=butcher' }),
+  category({ icon: 'maintenance', filter: 'shop=hardware' }),
+  category({ icon: 'flowers', filter: 'shop=florist' }),
+  category({ icon: 'mascara', filter: 'shop=beauty' }),
+  category({ icon: 'chair', filter: 'shop=furniture' }),
+  category({ icon: 'shop', filter: 'shop=mall' }),
+  category({ icon: 'tv', filter: 'shop=electronics' }),
+  category({ icon: 'boots', filter: 'shop=shoes' }),
+  category({ icon: 'wine-bottle', filter: 'shop=alcohol' }),
+  category({ icon: 'smartphone-tablet', filter: 'shop=mobile_phone' }),
+  category({ icon: 'car-battery', filter: 'shop=car_parts' }),
+  category({ icon: 'bicycle', filter: 'shop=bicycle' }),
+  category({ icon: 'books', filter: 'shop=books' }),
+  category({ icon: 'glasses', filter: 'shop=optician' }),
+  category({ icon: 'jewelry', filter: 'shop=jewelry' }),
 ]
 
 export default shops

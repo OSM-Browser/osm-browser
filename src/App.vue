@@ -48,8 +48,8 @@ export default {
   data: function () {
     return {
       repository: new PointRepository(),
-      filter: null,
       points: [],
+      selectedCategory: null,
       selectedPoint: null,
       location: {
         coordinates: Storage.getObject('location.coordinates', [47.413220, -1.219482]),
@@ -63,12 +63,12 @@ export default {
   },
   methods: {
     loadPoints: function () {
-      if (!this.filter) {
+      if (!this.selectedCategory) {
         return
       }
 
       let bbox = this.$refs.map.mapObject.getBounds()
-      let [type, subtype] = this.filter.split('=')
+      let [type, subtype] = this.selectedCategory.filter.split('=')
 
       this.repository.getPoints(bbox, type, subtype).then((points) => {
         this.points = points
@@ -83,7 +83,7 @@ export default {
     },
     categoryChanged: function (category) {
       this.points = []
-      this.filter = category.filter
+      this.selectedCategory = category
       this.loadPoints()
     },
     getIcon: function (point) {

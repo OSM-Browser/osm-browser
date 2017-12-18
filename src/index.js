@@ -5,7 +5,8 @@ import VueI18n from 'vue-i18n'
 import VueRouter from 'vue-router'
 import Buefy from 'buefy'
 
-import App from './App'
+import App from './app'
+import store from './store'
 
 Vue.use(VueI18n)
 Vue.use(VueRouter)
@@ -34,5 +35,6 @@ const i18n = new VueI18n({
 new Vue({
   el: '#app',
   i18n,
+  store,
   render: h => h(App),
 })

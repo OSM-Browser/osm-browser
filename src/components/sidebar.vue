@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import CategoryRepository from '../services/CategoryRepository'
+import CategoryRepository from 'services/category_repository'
 
 export default {
   data: function () {

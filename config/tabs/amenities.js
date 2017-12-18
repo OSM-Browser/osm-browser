@@ -1,5 +1,5 @@
-import Category from '../../src/models/Category'
-import Group from '../../src/models/Group'
+import Category from 'models/category'
+import Group from 'models/group'
 
 const category = (c) => new Category(c)
 const group = (g) => new Group(g)

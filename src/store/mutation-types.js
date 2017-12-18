@@ -1,0 +1,4 @@
+export const SWITCH_CATEGORY = 'SWITCH_CATEGORY'
+export const SWITCH_POINT = 'SWITCH_POINT'
+export const RECEIVE_POINTS = 'RECEIVE_POINTS'
+export const MOVE_MAP = 'MOVE_MAP'

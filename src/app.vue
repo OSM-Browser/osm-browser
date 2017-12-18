@@ -8,18 +8,7 @@
       </div>
 
       <div class="column" style="display: flex; flex-direction: column">
-        <v-map ref="map" :maxZoom=19 :center="location.coordinates" :zoom="location.zoom" @l-moveend="mapMoved">
-          <v-marker-cluster :options="{ disableClusteringAtZoom: 14 }">
-            <v-marker v-for="point in points"
-              :key="point.id"
-              :lat-lng="point.location"
-              :icon="getIcon(point)"
-              :options="{ title: point.name }"
-              @l-click="selectedPoint = point"
-            />
-          </v-marker-cluster>
-        </v-map>
-
+        <map-view />
         <point-info v-if="selectedPoint" :point="selectedPoint" @closed="selectedPoint = null" />
       </div>
     </div>
@@ -27,23 +16,20 @@
 </template>
 
 <script>
-import L from 'leaflet'
-import AwesomeMarker from 'drmonty-leaflet-awesome-markers'
-import LeafletProviders from 'leaflet-providers'
-import LocateControl from 'leaflet.locatecontrol'
-
-import PointRepository from './services/PointRepository'
-import Storage from './services/Storage'
-import Point from './models/Point'
-import PointInfo from './components/PointInfo'
-import Sidebar from './components/Sidebar'
-import Navbar from './components/Navbar'
+import PointRepository from 'services/point_repository'
+import Storage from 'services/storage'
+import Point from 'models/point'
+import PointInfo from 'components/point_info'
+import Sidebar from 'components/sidebar'
+import Navbar from 'components/navbar'
+import MapView from 'components/map'
 
 export default {
   components: {
     'point-info': PointInfo,
     'sidebar': Sidebar,
-    'navbar': Navbar
+    'navbar': Navbar,
+    'map-view': MapView,
   },
   data: function () {
     return {
@@ -56,10 +42,6 @@ export default {
         zoom: Storage.getNumber('location.zoom', 13)
       }
     }
-  },
-  mounted: function () {
-    (new LocateControl({ drawCircle: false })).addTo(this.$refs.map.mapObject)
-    L.tileLayer.provider('OpenStreetMap').addTo(this.$refs.map.mapObject)
   },
   methods: {
     loadPoints: function () {
@@ -80,6 +62,12 @@ export default {
       let map = this.$refs.map.mapObject
       Storage.set('location.coordinates', [map.getCenter().lat, map.getCenter().lng])
       Storage.set('location.zoom', map.getZoom())
+
+      this.$store.dispatch('moveMap', {
+        latitude: map.getCenter().lat,
+        longitude: map.getCenter().lng,
+        zoom: map.getZoom(),
+      })
     },
     categoryChanged: function (category) {
       this.points = []

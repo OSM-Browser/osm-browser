@@ -39,14 +39,18 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'OSM Browser',
-      template: 'src/index.ejs'
+      template: 'assets/index.ejs'
     })
   ],
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
-    }
+    },
+    modules: [
+      path.resolve('./src'),
+      path.resolve('./node_modules'),
+    ]
   },
   devServer: {
     contentBase: path.join(__dirname, "dist"),

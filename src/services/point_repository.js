@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import Point from '../models/Point'
+import Point from 'models/point'
 
 export default class {
   constructor(baseURL = 'https://points.osm.ovh/') {

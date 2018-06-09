@@ -33,7 +33,7 @@
     "babel-loader": "^8.0.0-beta.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "css-loader": "^0.28.9",
-    "file-loader": "^1.1.6",
+    "file-loader": "^1.1.11",
     "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",

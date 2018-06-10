@@ -30,7 +30,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.35",
     "@babel/preset-env": "^7.0.0-beta.35",
     "@babel/preset-stage-3": "^7.0.0-beta.35",
-    "babel-loader": "^8.0.0-beta.2",
+    "babel-loader": "^8.0.0-beta.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",

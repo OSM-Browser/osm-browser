@@ -26,11 +26,11 @@
     "vue2-leaflet-markercluster": "^1.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.35",
-    "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.35",
-    "@babel/preset-env": "^7.0.0-beta.35",
-    "@babel/preset-stage-3": "^7.0.0-beta.35",
-    "babel-loader": "^8.0.0-beta.3",
+    "@babel/core": "^7.0.0-beta.54",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.54",
+    "@babel/preset-env": "^7.0.0-beta.54",
+    "@babel/preset-stage-3": "^7.0.0-beta.54",
+    "babel-loader": "^8.0.0-beta.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",

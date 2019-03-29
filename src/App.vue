@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div id="app-root" class="is-flex">
     <navbar />
 
-    <div id="app-container" class="columns is-gapless">
-      <div id="app-sidebar" class="column is-one-quarter">
+    <div id="app-container" class="columns is-gapless is-mobile">
+      <div id="app-sidebar" class="column is-one-quarter is-hidden-mobile">
         <sidebar @category-selected="categoryChanged" />
       </div>
 
@@ -109,7 +109,11 @@ export default {
 
   html {
     overflow: hidden;
-    padding-top: 3.25rem;
+  }
+
+  #app-root {
+    flex-direction: column;
+    height: 100vh;
   }
 
   #app-container {

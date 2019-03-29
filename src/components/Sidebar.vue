@@ -1,5 +1,5 @@
 <template>
-  <aside class="menu" style="padding: 20px">
+  <aside class="menu">
     <b-tabs v-model="activeTab">
       <b-tab-item v-for="tab in tabs" :label="$t(tab.id)" :key="tab.name">
         <ul class="menu-list">
@@ -26,6 +26,10 @@
         </ul>
       </b-tab-item>
     </b-tabs>
+
+    <div class="icons8">
+      <a href="https://icons8.com">Icon pack by Icons8</a>
+    </div>
   </aside>
 </template>
 
@@ -65,6 +69,17 @@ export default {
 </script>
 
 <style>
+.menu {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.icons8 {
+  margin-top: auto;
+}
+
 .b-tabs .tab-content {
   padding-top: 10px;
 }

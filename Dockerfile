@@ -4,13 +4,11 @@ RUN mkdir -p /usr/src/osm
 WORKDIR /usr/src/osm
 
 COPY package.json .
-RUN npm install -q
+RUN npm install
 
 ENV NODE_ENV production
 
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
-
-COPY --from=0 /usr/src/osm/dist /usr/share/nginx/html
+CMD ["node", "src/server.js"]

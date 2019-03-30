@@ -10,7 +10,7 @@ service:
   name: osm-browser
   type: ClusterIP
   externalPort: 80
-  internalPort: 80
+  internalPort: 3000
 ingress:
   enabled: false
   # Used to create an Ingress record.

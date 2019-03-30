@@ -1,0 +1,4 @@
+version: "3"
+services:
+  osm-browser:
+    image: osmbrowser/osm-browser:${CIRCLE_WORKFLOW_WORKSPACE_ID}

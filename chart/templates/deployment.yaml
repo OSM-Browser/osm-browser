@@ -1,37 +1,59 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "osm-browser.fullname" . }}
+  name: {{ include "osm-browser.fullname" . }}
   labels:
-    app: {{ template "osm-browser.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "osm-browser.name" . }}
+    helm.sh/chart: {{ include "osm-browser.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
-        app: {{ template "osm-browser.name" . }}
-        release: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ include "osm-browser.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.env }}
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key | quote }}
+              value: {{ $value | quote  }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.secretEnv }}
+          envFrom:
+            - secretRef:
+                name: {{ include "osm-browser.fullname" . }}
+          {{- end }}
           ports:
-            - containerPort: {{ .Values.service.internalPort }}
+            - name: http
+              containerPort: 80
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: {{ .Values.service.internalPort }}
+              port: http
           readinessProbe:
             httpGet:
               path: /
-              port: {{ .Values.service.internalPort }}
+              port: http
           resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- if .Values.nodeSelector }}
+            {{ toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
     {{- end }}

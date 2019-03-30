@@ -7,10 +7,18 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 17.10.0-ce
-      - run: docker-compose up -d
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker-compose push $CIRCLE_PROJECT_REPONAME
+          version: 18.06.0-ce
+      - run:
+          name: Build and test
+          command: docker-compose up -d
+          environment:
+            COMPOSE_FILE: docker-compose.yml:docker-compose.ci.yml
+      - run:
+          build: Push image
+          command: |
+            if [ -n "$CIRCLE_PR_NUMBER" ]; then exit 0; fi
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push osmbrowser/$CIRCLE_PROJECT_REPONAME:$CIRCLE_WORKFLOW_WORKSPACE_ID
       - persist_to_workspace:
           root: chart
           paths:
@@ -23,6 +31,7 @@ jobs:
       - attach_workspace:
           at: chart
       - run:
+          name: Configure kubectl
           command: |
             echo $K8S_CA | base64 -d > ca.crt
             kubectl config set-cluster default --server=$K8S_URL --certificate-authority=ca.crt
@@ -30,9 +39,12 @@ jobs:
             kubectl config set-context default --cluster=default --user=default
             kubectl config use-context default
       - run:
+          name: Upgrade release
           command: |
             helm init -c
-            helm upgrade ${CIRCLE_PROJECT_REPONAME} ./chart -i --reuse-values --timeout 600 --wait
+            helm upgrade ${CIRCLE_PROJECT_REPONAME} ./chart \
+              --set image.tag=$CIRCLE_WORKFLOW_WORKSPACE_ID \
+              --reuse-values --timeout 300 --wait
 workflows:
   version: 2
   build:

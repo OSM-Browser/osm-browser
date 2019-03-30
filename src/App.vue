@@ -15,7 +15,7 @@
               :lat-lng="point.location"
               :icon="getIcon(point)"
               :options="{ title: point.name }"
-              @l-click="selectedPoint = point"
+              @click="selectedPoint = point"
             />
           </v-marker-cluster>
         </v-map>

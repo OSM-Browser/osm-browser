@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vue2Leaflet from 'vue2-leaflet'
+import {LMap, LTileLayer, LMarker} from 'vue2-leaflet'
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
 import VueI18n from 'vue-i18n'
 import VueRouter from 'vue-router'
@@ -11,9 +11,9 @@ Vue.use(VueI18n)
 Vue.use(VueRouter)
 Vue.use(Buefy)
 
-Vue.component('v-map', Vue2Leaflet.Map)
-Vue.component('v-tilelayer', Vue2Leaflet.TileLayer)
-Vue.component('v-marker', Vue2Leaflet.Marker)
+Vue.component('v-map', LMap)
+Vue.component('v-tilelayer', LTileLayer)
+Vue.component('v-marker', LMarker)
 Vue.component('v-marker-cluster', Vue2LeafletMarkerCluster)
 
 let localeCode = localStorage.getItem('locale')

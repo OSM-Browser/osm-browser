@@ -1,4 +1,4 @@
-export default class Category {
+export default class Group {
   constructor(params) {
     Object.assign(this, params)
   }

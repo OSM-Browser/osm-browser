@@ -52,7 +52,7 @@ export default {
       selectedCategory: null,
       selectedPoint: null,
       location: {
-        coordinates: Storage.getObject('location.coordinates', [47.413220, -1.219482]),
+        coordinates: Storage.getObject('location.coordinates', window.serverData.coordinates),
         zoom: Storage.getNumber('location.zoom', 13)
       }
     }
